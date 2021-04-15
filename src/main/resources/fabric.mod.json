@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "fields-api",
+  "version": "${version}",
+  "name": "Fields API",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MPL-2.0",
+  "icon": "assets/fields/icon.png",
+  "environment": "*",
+  "entrypoints": {
+  },
+  "mixins": [
+    "fields-api.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.16.5"
+  }
+}

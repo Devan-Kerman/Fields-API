@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "fields-testmod",
+  "version": "${version}",
+  "entrypoints": {
+    "main": [
+      "net.devtech.TestMod"
+    ]
+  }
+}

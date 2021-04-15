@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.devtech.fields.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "ChunkSectionMixin_ChunkSectionAccess",
+    "ChunkSerializerMixin_ChunkSectionSerialize",
+    "ServerWorldMixin_TickChunkSection"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
