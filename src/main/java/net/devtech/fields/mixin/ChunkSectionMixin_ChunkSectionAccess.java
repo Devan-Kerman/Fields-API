@@ -1,5 +1,6 @@
 package net.devtech.fields.mixin;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +40,9 @@ public class ChunkSectionMixin_ChunkSectionAccess implements ChunkSectionAccess 
 		return this.formats.computeIfAbsent(values, i -> {
 			DataFormat<?, ?> format = entry.initializer.apply(entry, (ChunkSection) (Object) this, values);
 			if(format instanceof TickingDataFormat) {
+				if(this.ticking == null) {
+					this.ticking = new ArrayList<>();
+				}
 				this.ticking.add((TickingDataFormat) format);
 			}
 			return format;

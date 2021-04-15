@@ -35,6 +35,9 @@ public class ValueFieldImpl<T> implements ValueField<T> {
 		ChunkSection[] section = chunk.getSectionArray();
 		int sectionIndex = pos.getY() >> 4;
 		ChunkSection target = section[sectionIndex];
+		if(target == null) {
+			section[sectionIndex] = target = new ChunkSection(sectionIndex);
+		}
 		return (AbstractDataFormat<T, ?>) ((ChunkSectionAccess)target).getOrCreate(this.id, this.initializer);
 	}
 

@@ -52,9 +52,8 @@ public interface DataFormat<A, F extends ValueField<A>> {
 			this.setInt(subchunkX, subchunkY, subchunkZ, integer);
 		}
 
-
 		int getInt(int subchunkX, int subchunkY, int subchunkZ);
 
-		void setInt(int subchunkX, int subchunkY, int subchunkZ, int val);
+		boolean setInt(int subchunkX, int subchunkY, int subchunkZ, int val);
 	}
 }

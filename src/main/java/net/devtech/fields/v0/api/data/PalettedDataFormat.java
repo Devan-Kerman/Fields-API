@@ -102,7 +102,7 @@ public abstract class PalettedDataFormat<A, F extends ValueField<A>> extends Abs
 
 		@Override
 		public int getInt(int subchunkX, int subchunkY, int subchunkZ) {
-			if(this.array == null) {
+			if (this.array == null || subchunkX < 0 || subchunkX > 15 || subchunkY < 0 || subchunkY > 15 || subchunkZ < 0 || subchunkZ > 15) {
 				return 0;
 			}
 			int index = this.array.get(subchunkX << 8 | subchunkY << 4 | subchunkZ);
@@ -110,7 +110,10 @@ public abstract class PalettedDataFormat<A, F extends ValueField<A>> extends Abs
 		}
 
 		@Override
-		public void setInt(int subchunkX, int subchunkY, int subchunkZ, int val) {
+		public boolean setInt(int subchunkX, int subchunkY, int subchunkZ, int val) {
+			if (subchunkX < 0 || subchunkX > 15 || subchunkY < 0 || subchunkY > 15 || subchunkZ < 0 || subchunkZ > 15) {
+				return false;
+			}
 			IntList list = (IntList) this.pallet;
 			int pallet = this.array == null ? -1 : list.indexOf(val);
 			if(pallet == -1) {
@@ -139,6 +142,8 @@ public abstract class PalettedDataFormat<A, F extends ValueField<A>> extends Abs
 				}
 			}
 			this.array.set(subchunkX << 8 | subchunkY << 4 | subchunkZ, pallet);
+			return true;
 		}
+
 	}
 }

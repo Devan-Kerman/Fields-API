@@ -42,17 +42,29 @@ public class GradientPackedDataFormat extends AbstractDataFormat<Integer, ValueF
 
 	@Override
 	public int getInt(int subchunkX, int subchunkY, int subchunkZ) {
-		if(this.array == null) return this.min;
+		if (this.array == null || subchunkX < 0 || subchunkX > 15 || subchunkY < 0 || subchunkY > 15 || subchunkZ < 0 || subchunkZ > 15) {
+			return this.min;
+		}
+
 		return this.array.get(subchunkX << 8 | subchunkY << 4 | subchunkZ) + this.min;
 	}
 
 	@Override
-	public void setInt(int subchunkX, int subchunkY, int subchunkZ, int val) {
+	public boolean setInt(int subchunkX, int subchunkY, int subchunkZ, int val) {
+		if (subchunkX < 0 || subchunkX > 15 || subchunkY < 0 || subchunkY > 15 || subchunkZ < 0 || subchunkZ > 15) {
+			return false;
+		}
+
 		boolean shouldRecompute = false, shouldResize = false;
 
 		int neededBits = -1, min = this.min;
 		if(this.array == null) {
 			shouldResize = true;
+			if(val < min) {
+				this.min = val;
+			} else if(val > this.max) {
+				this.max = val;
+			}
 		} else if(val < min) {
 			shouldRecompute = true;
 			neededBits = this.neededBits(val);
@@ -82,6 +94,7 @@ public class GradientPackedDataFormat extends AbstractDataFormat<Integer, ValueF
 			}
 		}
 		this.array.set(subchunkX << 8 | subchunkY << 4 | subchunkZ, val - this.min);
+		return true;
 	}
 
 	public int neededBits(int val) {
