@@ -10,7 +10,7 @@ repositories {
 
 dependencies {
     ...
-    modImplementation 'net.devtech:fields-api:0.0.2' // depends on fapi
+    modImplementation 'net.devtech:fields-api:0.0.3' // depends on fapi
     	// fabric-registry-sync-v0
 		// fabric-base-v0
 		// fabric-networking-api-v1
