@@ -1,8 +1,7 @@
-package net.devtech.fields.impl;
+package net.devtech.fields.v0.api.value;
 
 import net.devtech.fields.impl.access.ChunkSectionAccess;
 import net.devtech.fields.v0.api.data.AbstractDataFormat;
-import net.devtech.fields.v0.api.value.ValueField;
 import net.devtech.fields.v0.api.DataFormatInitializer;
 
 import net.minecraft.util.Identifier;

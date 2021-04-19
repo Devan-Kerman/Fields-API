@@ -2,7 +2,7 @@ package net.devtech.fields.v0.api;
 
 import java.util.function.BiFunction;
 
-import net.devtech.fields.impl.ValueFieldImpl;
+import net.devtech.fields.v0.api.value.ValueFieldImpl;
 import net.devtech.fields.v0.api.data.GradientPackedDataFormat;
 import net.devtech.fields.v0.api.data.PalettedDataFormat;
 import net.devtech.fields.v0.api.value.ValueField;

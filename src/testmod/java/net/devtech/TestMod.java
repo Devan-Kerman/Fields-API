@@ -1,6 +1,6 @@
 package net.devtech;
 
-import net.devtech.fields.impl.ValueFieldImpl;
+import net.devtech.fields.v0.api.value.ValueFieldImpl;
 import net.devtech.fields.v0.api.DataFormat;
 import net.devtech.fields.v0.api.DataFormatInitializer;
 import net.devtech.fields.v0.api.value.ValueField;
@@ -9,7 +9,6 @@ import net.devtech.heat.HeatThing;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;

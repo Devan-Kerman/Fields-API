@@ -30,7 +30,6 @@ public interface ValueField<T> {
 	 */
 	void set(WorldChunk chunk, BlockPos pos, T value);
 
-
 	interface Int extends ValueField<Integer> {
 		default int getInt(World world, BlockPos pos) {
 			return this.getInt(world.getWorldChunk(pos), pos);
