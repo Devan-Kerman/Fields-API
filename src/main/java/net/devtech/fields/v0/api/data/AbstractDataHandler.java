@@ -12,10 +12,7 @@ import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkSection;
-
-import net.fabricmc.fabric.impl.screenhandler.client.ClientNetworking;
 
 public abstract class AbstractDataHandler<A, F extends ValueField<A>> implements DataHandler<A, F> {
 	public static final Identifier SYNC_CHANNEL = new Identifier("fields-api", "sync_channel");
