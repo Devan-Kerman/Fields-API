@@ -1,10 +1,10 @@
 package net.devtech;
 
 import net.devtech.fields.v0.api.value.ValueFieldImpl;
-import net.devtech.fields.v0.api.DataFormat;
+import net.devtech.fields.v0.api.DataHandler;
 import net.devtech.fields.v0.api.DataFormatInitializer;
 import net.devtech.fields.v0.api.value.ValueField;
-import net.devtech.heat.HeatThing;
+import net.devtech.heat.HeatDataHandler;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
@@ -15,7 +15,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 
 public class TestMod implements ModInitializer {
-	public static final DataFormatInitializer.Entry<Integer, ValueField.Int> HEAT_FORMAT = DataFormat.register(new Identifier("testmod", "heat"), HeatThing::new, ValueFieldImpl.Int::new);
+	public static final DataFormatInitializer.Entry<Integer, ValueField.Int> HEAT_FORMAT = DataHandler.register(new Identifier("testmod", "heat"), HeatDataHandler::new, ValueFieldImpl.Int::new);
 	public static final ValueField.Int HEAT = ValueField.create(HEAT_FORMAT, new Identifier("testmod", "heat"));
 
 	@Override

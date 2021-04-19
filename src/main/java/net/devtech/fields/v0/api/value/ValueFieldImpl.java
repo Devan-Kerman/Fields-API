@@ -1,7 +1,7 @@
 package net.devtech.fields.v0.api.value;
 
 import net.devtech.fields.impl.access.ChunkSectionAccess;
-import net.devtech.fields.v0.api.data.AbstractDataFormat;
+import net.devtech.fields.v0.api.data.AbstractDataHandler;
 import net.devtech.fields.v0.api.DataFormatInitializer;
 
 import net.minecraft.util.Identifier;
@@ -30,14 +30,14 @@ public class ValueFieldImpl<T> implements ValueField<T> {
 		this.getFormat(chunk, pos).set(subchunkX, subchunkY, subchunkZ, value);
 	}
 
-	public AbstractDataFormat<T, ?> getFormat(WorldChunk chunk, BlockPos pos) {
+	public AbstractDataHandler<T, ?> getFormat(WorldChunk chunk, BlockPos pos) {
 		ChunkSection[] section = chunk.getSectionArray();
 		int sectionIndex = pos.getY() >> 4;
 		ChunkSection target = section[sectionIndex];
 		if(target == null) {
 			section[sectionIndex] = target = new ChunkSection(sectionIndex);
 		}
-		return (AbstractDataFormat<T, ?>) ((ChunkSectionAccess)target).getOrCreate(this.id, this.initializer);
+		return (AbstractDataHandler<T, ?>) ((ChunkSectionAccess)target).getOrCreate(this.id, this.initializer);
 	}
 
 	public static final class Int extends ValueFieldImpl<Integer> implements ValueField.Int {
@@ -47,12 +47,12 @@ public class ValueFieldImpl<T> implements ValueField<T> {
 
 		@Override
 		public int getInt(WorldChunk chunk, BlockPos pos) {
-			return ((AbstractDataFormat.Int)this.getFormat(chunk, pos)).getInt(pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15);
+			return ((AbstractDataHandler.Int)this.getFormat(chunk, pos)).getInt(pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15);
 		}
 
 		@Override
 		public void setInt(WorldChunk chunk, BlockPos pos, int val) {
-			((AbstractDataFormat.Int)this.getFormat(chunk, pos)).setInt(pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15, val);
+			((AbstractDataHandler.Int)this.getFormat(chunk, pos)).setInt(pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15, val);
 		}
 	}
 }

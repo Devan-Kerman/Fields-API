@@ -1,17 +1,23 @@
 package net.devtech.fields.v0.api.value;
 
 import net.devtech.fields.v0.api.DataFormatInitializer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.WorldChunk;
 
+/**
+ * An accessor to get data from DataHandlers in the world
+ */
 public interface ValueField<T> {
 	static <A, F extends ValueField<A>> F create(DataFormatInitializer.Entry<A, F> entry, Identifier fieldId) {
 		return entry.fieldCreator.apply(entry, fieldId);
 	}
 
+	@Nullable
 	default T get(World world, BlockPos pos) {
 		return this.get(world.getWorldChunk(pos), pos);
 	}
@@ -19,6 +25,7 @@ public interface ValueField<T> {
 	/**
 	 * @param pos does not need to be normalized (it still can be though)
 	 */
+	@Nullable
 	T get(WorldChunk chunk, BlockPos pos);
 
 	default void set(World world, BlockPos pos, T value) {
@@ -35,6 +42,7 @@ public interface ValueField<T> {
 			return this.getInt(world.getWorldChunk(pos), pos);
 		}
 		@Override
+		@NotNull
 		default Integer get(WorldChunk chunk, BlockPos pos) { return this.getInt(chunk, pos); }
 
 		@Override

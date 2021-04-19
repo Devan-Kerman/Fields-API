@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.chunk.ChunkSection;
 
 public interface DataFormatInitializer<A, F extends ValueField<A>> {
-	DataFormat<A, F> apply(DataFormatInitializer.Entry entry, ChunkSection currentSection, Identifier identifier);
+	DataHandler<A, F> apply(DataFormatInitializer.Entry entry, ChunkSection currentSection, Identifier identifier);
 
 	final class Entry<A, F extends ValueField<A>> {
 		public final DataFormatInitializer<A, F> initializer;
@@ -16,7 +16,7 @@ public interface DataFormatInitializer<A, F extends ValueField<A>> {
 		public final Identifier id;
 
 		/**
-		 * @see DataFormat#register(Identifier, DataFormatInitializer, BiFunction)
+		 * @see DataHandler#register(Identifier, DataFormatInitializer, BiFunction)
 		 */
 		Entry(DataFormatInitializer<A, F> initializer, BiFunction<Entry, Identifier, F> creator, Identifier id) {
 			this.initializer = initializer;

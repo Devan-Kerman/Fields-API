@@ -1,7 +1,8 @@
 package net.devtech.fields.mixin;
 
+import net.devtech.fields.impl.DataHandlerSerializer;
 import net.devtech.fields.impl.access.ChunkSectionAccess;
-import net.devtech.fields.v0.api.DataFormat;
+import net.devtech.fields.v0.api.DataHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -60,18 +61,7 @@ public class ChunkSerializerMixin_ChunkSectionSerialize {
 			CompoundTag compoundTag2,
 			int k,
 			ChunkSection chunkSection) {
-		try {
-			ChunkSectionAccess access = (ChunkSectionAccess) chunkSection;
-			CompoundTag tags = compoundTag2.getCompound("fields_section_data");
-			for (String key : tags.getKeys()) {
-				CompoundTag data = tags.getCompound(key);
-				Identifier valueId = new Identifier(key);
-				DataFormat<?, ?> format = access.getOrCreate(valueId, DataFormat.REGISTRY.get(new Identifier(data.getString("format_id"))));
-				format.fromTag(data.get("data"));
-			}
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
+		DataHandlerSerializer.deserialize(chunkSection, compoundTag2.getCompound("fields_section_data"));
 	}
 
 	@Inject (method = "serialize",
@@ -94,22 +84,6 @@ public class ChunkSerializerMixin_ChunkSectionSerialize {
 			ChunkNibbleArray chunkNibbleArray,
 			ChunkNibbleArray chunkNibbleArray2,
 			CompoundTag compoundTag3) {
-		try {
-			ChunkSectionAccess access = (ChunkSectionAccess) chunkSection;
-			CompoundTag tags = new CompoundTag();
-			for (Identifier identifier : access.fields_getStored()) {
-				DataFormat<?, ?> format = access.get(identifier);
-				Tag tag = format.toTag();
-				if (tag != null) {
-					CompoundTag data = new CompoundTag();
-					data.put("data", tag);
-					data.putString("format_id", format.getEntry().id.toString());
-					tags.put(identifier.toString(), data);
-				}
-			}
-			compoundTag3.put("fields_section_data", tags);
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
+		compoundTag3.put("fields_section_data", DataHandlerSerializer.serialize(chunkSection, false));
 	}
 }

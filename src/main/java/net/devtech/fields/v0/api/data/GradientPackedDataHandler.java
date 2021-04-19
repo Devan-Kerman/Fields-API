@@ -1,6 +1,6 @@
 package net.devtech.fields.v0.api.data;
 
-import net.devtech.fields.v0.api.DataFormat;
+import net.devtech.fields.v0.api.DataHandler;
 import net.devtech.fields.v0.api.DataFormatInitializer;
 import net.devtech.fields.v0.api.value.ValueField;
 
@@ -11,11 +11,11 @@ import net.minecraft.util.collection.PackedIntegerArray;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.ChunkSection;
 
-public class GradientPackedDataFormat extends AbstractDataFormat<Integer, ValueField.Int> implements DataFormat.Int {
+public class GradientPackedDataHandler extends AbstractDataHandler<Integer, ValueField.Int> implements DataHandler.Int {
 	protected PackedIntegerArray array;
 	protected int min, max;
 
-	public GradientPackedDataFormat(DataFormatInitializer.Entry<Integer, ValueField.Int> entry, ChunkSection section, Identifier id) {
+	public GradientPackedDataHandler(DataFormatInitializer.Entry<Integer, ValueField.Int> entry, ChunkSection section, Identifier id) {
 		super(entry, section, id);
 	}
 

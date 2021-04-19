@@ -5,7 +5,7 @@ import java.util.List;
 
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.devtech.fields.v0.api.DataFormat;
+import net.devtech.fields.v0.api.DataHandler;
 import net.devtech.fields.v0.api.DataFormatInitializer;
 import net.devtech.fields.v0.api.value.ValueField;
 
@@ -17,10 +17,10 @@ import net.minecraft.util.collection.PackedIntegerArray;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.ChunkSection;
 
-public abstract class PalettedDataFormat<A, F extends ValueField<A>> extends AbstractDataFormat<A, F> {
+public abstract class PalettedDataHandler<A, F extends ValueField<A>> extends AbstractDataHandler<A, F> {
 	protected PackedIntegerArray array;
 	protected List<A> pallet;
-	public PalettedDataFormat(DataFormatInitializer.Entry<A, F> entry, ChunkSection section, Identifier id) {
+	public PalettedDataHandler(DataFormatInitializer.Entry<A, F> entry, ChunkSection section, Identifier id) {
 		super(entry, section, id);
 	}
 
@@ -85,7 +85,7 @@ public abstract class PalettedDataFormat<A, F extends ValueField<A>> extends Abs
 		this.array.set(subchunkX << 8 | subchunkY << 4 | subchunkZ, pallet);
 	}
 
-	public static class Int extends PalettedDataFormat<Integer, ValueField.Int> implements DataFormat.Int {
+	public static class Int extends PalettedDataHandler<Integer, ValueField.Int> implements DataHandler.Int {
 		public Int(DataFormatInitializer.Entry entry, ChunkSection section, Identifier id) {
 			super(entry, section, id);
 		}
