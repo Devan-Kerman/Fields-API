@@ -14,6 +14,7 @@ import net.minecraft.util.registry.Registry;
 
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 
+
 /**
  * the format and handler for data in a given subchunk
  * @see TickingDataHandler
