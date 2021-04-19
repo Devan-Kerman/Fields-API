@@ -10,7 +10,10 @@ repositories {
 
 dependencies {
     ...
-    modImplementation 'net.devtech:fields-api:0.0.0'
+    modImplementation 'net.devtech:fields-api:0.0.2' // depends on fapi
+    	// fabric-registry-sync-v0
+		// fabric-base-v0
+		// fabric-networking-api-v1
 }
 ```
 
@@ -28,7 +31,7 @@ ItemStack stack = new ItemStack(MyItems.SLUDGE, pollution);
 ValueField is just an accessor basically, it's an interface to translate global calls (eg. world + pos) to local ones (eg. chunksection). Feel free to make your own for other primitives
 
 ## DataHandlers
-DataHandler is the format in which the data is stored in memory, and can tick `TickingDataHandler`
+DataHandler is the format in which the data is stored in memory, and can tick `TickingDataHandler`. Overriding the `shouldSync` method and returning true allows 
 
 ```java
 package net.devtech.heat;
