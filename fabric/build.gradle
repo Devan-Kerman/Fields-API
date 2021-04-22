@@ -32,9 +32,6 @@ dependencies {
     // Fabric API
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
-    // Architectury
-    modApi "me.shedaniel:architectury-fabric:${rootProject.architectury_version}"
-
     // Mod Menu
     modImplementation "io.github.prospector:modmenu:${project.mod_menu_version}"
 
@@ -99,6 +96,15 @@ publishing {
     }
 
     repositories {
-
+        maven {
+            def mavenUrl = project.hasProperty('maven_url') ? project.property('maven_url') : ""
+            url mavenUrl
+            if (mavenUrl.startsWith("http")) {
+                credentials {
+                    username project.hasProperty('maven_username') ? project.property('maven_username') : ""
+                    password project.hasProperty('maven_password') ? project.property('maven_password') : ""
+                }
+            }
+        }
     }
 }

@@ -7,6 +7,7 @@ buildscript {
 plugins {
     id "architectury-plugin" version "3.0-SNAPSHOT"
     id "forgified-fabric-loom" version "0.6-SNAPSHOT" apply false
+    id 'maven-publish'
 }
 
 architectury {

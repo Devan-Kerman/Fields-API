@@ -1,18 +1,23 @@
 package net.devtech.fields.v0.api;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiFunction;
 
+import me.shedaniel.architectury.annotations.ExpectPlatform;
+import net.devtech.fields.impl.util.AddOnlyMap;
 import net.devtech.fields.v0.api.data.TickingDataHandler;
 import net.devtech.fields.v0.api.value.ValueFieldImpl;
 import net.devtech.fields.v0.api.data.GradientPackedDataHandler;
 import net.devtech.fields.v0.api.data.PalettedDataHandler;
 import net.devtech.fields.v0.api.value.ValueField;
+import org.jetbrains.annotations.ApiStatus;
 
 import net.minecraft.nbt.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 
 
 /**
@@ -20,9 +25,7 @@ import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
  * @see TickingDataHandler
  */
 public interface DataHandler<A, F extends ValueField<A>> {
-	Registry<DataFormatInitializer.Entry> REGISTRY = FabricRegistryBuilder.createSimple(
-			DataFormatInitializer.Entry.class,
-			new Identifier("fields-api", "data_handlers")).buildAndRegister();
+	Map<Identifier, DataFormatInitializer.Entry> REGISTRY = new AddOnlyMap<>(new ConcurrentHashMap<>());
 
 	/**
 	 * a data format that stores ints in a pallet, optimized for data that varies wildly (eg. block ids)
@@ -41,7 +44,9 @@ public interface DataHandler<A, F extends ValueField<A>> {
 	static <A, B extends ValueField<A>> DataFormatInitializer.Entry<A, B> register(Identifier identifier,
 			DataFormatInitializer<A, B> initializer,
 			BiFunction<DataFormatInitializer.Entry, Identifier, B> function) {
-		return Registry.register(REGISTRY, identifier, new DataFormatInitializer.Entry<>(initializer, function, identifier));
+		DataFormatInitializer.Entry<A, B> entry = new DataFormatInitializer.Entry<>(initializer, function, identifier);
+		REGISTRY.put(identifier, entry);
+		return entry;
 	}
 
 	Tag toTag();

@@ -19,9 +19,6 @@ dependencies {
     // Forge
     forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
 
-    // Architectury
-    modApi "me.shedaniel:architectury-forge:${rootProject.architectury_version}"
-
     implementation(project(path: ":common")) {
         transitive = false
     }
@@ -85,7 +82,16 @@ publishing {
     }
 
     repositories {
-
+        maven {
+            def mavenUrl = project.hasProperty('maven_url') ? project.property('maven_url') : ""
+            url mavenUrl
+            if (mavenUrl.startsWith("http")) {
+                credentials {
+                    username project.hasProperty('maven_username') ? project.property('maven_username') : ""
+                    password project.hasProperty('maven_password') ? project.property('maven_password') : ""
+                }
+            }
+        }
     }
 }
 

@@ -10,7 +10,7 @@
 		"sources": "https://github.com/Devan-Kerman/Fields-API"
 	},
 	"license": "MPLv2",
-	"icon": "assets/deepfreeze/icon.png",
+	"icon": "assets/fields_api/icon.png",
 	"environment": "*",
 	"mixins": [
 	],

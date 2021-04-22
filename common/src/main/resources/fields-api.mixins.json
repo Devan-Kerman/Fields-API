@@ -9,7 +9,7 @@
     "ServerWorldMixin_TickChunkSection"
   ],
   "client": [
-    "ClientPlayNetworkHandlerMixin_InterceptSyncPacket",
+    "ClientPlayNetworkHandlerMixin_InterceptSyncPacket"
   ],
   "injectors": {
     "defaultRequire": 1
