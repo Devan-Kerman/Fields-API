@@ -1,87 +1,55 @@
-plugins {
-    id 'fabric-loom' version '0.7-SNAPSHOT'
-    id 'maven-publish'
-}
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
-
-sourceSets {
-    testmod {
-        compileClasspath += main.runtimeClasspath
-        runtimeClasspath += main.runtimeClasspath
-    }
-}
-
-dependencies {
-    //to change the versions see the gradle.properties file
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation fabricApi.module("fabric-registry-sync-v0", project.fabric_version)
-}
-
-processResources {
-    inputs.property "version", project.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include "fabric.mod.json"
-        expand "version": project.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude "fabric.mod.json"
-    }
-}
-
-// ensure that the encoding is set to UTF-8, no matter what the system default is
-// this fixes some edge cases with special characters not displaying correctly
-// see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
-
-// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-// if it is present.
-// If you remove this task, sources will not be generated.
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = "sources"
-    from sourceSets.main.allSource
-}
-
-jar {
-    from "LICENSE"
-}
-
-// configure the maven publication
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            // add all the jars that should be included when publishing to maven
-            artifact(remapJar) {
-                builtBy remapJar
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-        }
-    }
-
-    // select the repositories you want to publish to
+buildscript {
     repositories {
-        maven {
-            def mavenUrl = project.hasProperty('maven_url') ? project.property('maven_url') : ""
-            url mavenUrl
-            if(mavenUrl.startsWith("http")) {
-                credentials {
-                    username project.hasProperty('maven_username') ? project.property('maven_username') : ""
-                    password project.hasProperty('maven_password') ? project.property('maven_password') : ""
-                }
-            }
-        }
+        mavenCentral()
     }
+}
+
+plugins {
+    id "architectury-plugin" version "3.0-SNAPSHOT"
+    id "forgified-fabric-loom" version "0.6-SNAPSHOT" apply false
+}
+
+architectury {
+    minecraft = rootProject.minecraft_version
+}
+
+subprojects {
+    apply plugin: "forgified-fabric-loom"
+    loom {
+        silentMojangMappingsLicense()
+    }
+
+    dependencies {
+        // Minecraft
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+
+        // Yarn
+        mappings "net.fabricmc:yarn:${rootProject.yarn_version}"
+    }
+}
+
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
+
+    archivesBaseName = rootProject.mod_name
+    version = rootProject.mod_version
+    group = rootProject.mod_group
+
+    repositories {
+
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    java {
+        withSourcesJar()
+    }
+}
+
+repositories {
+    mavenCentral()
 }

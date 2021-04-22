@@ -1,0 +1,24 @@
+{
+	"schemaVersion": 1,
+	"id": "fields-api",
+	"version": "${version}",
+	"name": "Fields API",
+	"authors": [
+		"HalfOf2"
+	],
+	"contact": {
+		"sources": "https://github.com/Devan-Kerman/Fields-API"
+	},
+	"license": "MPLv2",
+	"icon": "assets/deepfreeze/icon.png",
+	"environment": "*",
+	"mixins": [
+	],
+	"depends": {
+		"fabricloader": ">=0.7.0",
+		"fabric": "*"
+	},
+	"suggests": {
+		"flamingo": "*"
+	}
+}

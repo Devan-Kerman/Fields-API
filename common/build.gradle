@@ -1,0 +1,40 @@
+dependencies {
+    // Fabric Loader
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+
+    // Architectury
+    modApi "me.shedaniel:architectury:${rootProject.architectury_version}"
+}
+
+architectury {
+    common()
+}
+
+java {
+    withSourcesJar()
+}
+
+loom {
+    mixinConfig "mixin.examplemod.json"
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.mod_name
+
+            artifact remapJar
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
+        }
+    }
+
+    repositories {
+
+    }
+}
+
+repositories {
+    mavenCentral()
+}

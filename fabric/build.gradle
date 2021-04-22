@@ -1,0 +1,104 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+}
+
+configurations {
+    shadowCommon
+}
+
+architectury {
+    platformSetupLoomIde()
+    fabric()
+}
+
+repositories {
+    maven {
+        name = "JitPack"
+        url = "https://jitpack.io/"
+    }
+
+    maven {
+        name = "shedaniel"
+        url = "https://maven.shedaniel.me/"
+    }
+
+    mavenCentral()
+}
+
+dependencies {
+    // Fabric Loader
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+
+    // Fabric API
+    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+
+    // Architectury
+    modApi "me.shedaniel:architectury-fabric:${rootProject.architectury_version}"
+
+    // Mod Menu
+    modImplementation "io.github.prospector:modmenu:${project.mod_menu_version}"
+
+    implementation(project(path: ":common")) {
+        transitive = false
+    }
+
+    developmentFabric(project(path: ":common")) {
+        transitive = false
+    }
+
+    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) {
+        transitive = false
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowCommon]
+    classifier "dev-shadow"
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    classifier "fabric"
+}
+
+jar {
+    classifier "dev"
+}
+
+java {
+    withSourcesJar()
+}
+
+sourcesJar {
+    def commonSources = project(":common").remapSourcesJar
+    dependsOn commonSources
+    from zipTree(commonSources.output)
+}
+
+publishing {
+    publications {
+        mavenFabric(MavenPublication) {
+            artifactId = rootProject.mod_name + "-" + project.name
+
+            artifact(remapJar) {
+                classifier null
+            }
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
+        }
+    }
+
+    repositories {
+
+    }
+}
